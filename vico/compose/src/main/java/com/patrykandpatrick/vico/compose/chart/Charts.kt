@@ -26,9 +26,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.MutableFloatState
 import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -324,7 +322,7 @@ internal fun <Model : ChartEntryModel> ChartImpl(
     val axisManager = remember { AxisManager() }
     val bounds = remember { RectF() }
     val markerTouchPoint = remember { mutableStateOf<Point?>(null) }
-    val zoom = remember { mutableFloatStateOf(0f) }
+    val zoom = remember { mutableStateOf(0f) }
     val wasZoomOverridden = remember { mutableStateOf(false) }
     val measureContext = getMeasureContext(
         chartScrollSpec.isScrollEnabled,
@@ -389,11 +387,11 @@ internal fun <Model : ChartEntryModel> ChartImpl(
 
         if (chartBounds.isEmpty) return@Canvas
 
-        var finalZoom = zoom.floatValue
+        var finalZoom = zoom.value
 
         if (!wasZoomOverridden.value || !chartScrollSpec.isScrollEnabled) {
             finalZoom = measureContext.getAutoZoom(horizontalDimensions, chart.bounds, autoScaleUp)
-            if (chartScrollSpec.isScrollEnabled) zoom.floatValue = finalZoom
+            if (chartScrollSpec.isScrollEnabled) zoom.value = finalZoom
         }
 
         chartScrollState.maxValue = measureContext.getMaxScrollDistance(
@@ -476,18 +474,18 @@ internal fun rememberScrollListener(touchPoint: MutableState<Point?>): ScrollLis
 
 @Composable
 internal fun rememberZoomState(
-    zoom: MutableFloatState,
+    zoom: MutableState<Float>,
     wasZoomOverridden: MutableState<Boolean>,
     getScroll: () -> Float,
     scrollBy: (value: Float) -> Unit,
     chartBounds: RectF,
 ): OnZoom = remember {
     onZoom@{ centroid, zoomChange ->
-        val newZoom = zoom.floatValue * zoomChange
+        val newZoom = zoom.value * zoomChange
         if (newZoom !in DEF_MIN_ZOOM..DEF_MAX_ZOOM) return@onZoom
         val transformationAxisX = getScroll() + centroid.x - chartBounds.left
         val zoomedTransformationAxisX = transformationAxisX * zoomChange
-        zoom.floatValue = newZoom
+        zoom.value = newZoom
         scrollBy(zoomedTransformationAxisX - transformationAxisX)
         wasZoomOverridden.value = true
     }

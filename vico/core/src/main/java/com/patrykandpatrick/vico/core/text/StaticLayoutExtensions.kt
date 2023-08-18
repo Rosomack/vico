@@ -85,6 +85,7 @@ internal fun Layout.getBounds(outBounds: RectF): RectF =
         bottom = this@getBounds.height.toFloat()
     }
 
+@OptIn(ExperimentalStdlibApi::class)
 internal val Layout.widestLineWidth: Float
     get() =
         (0..<lineCount).maxOf { lineIndex ->

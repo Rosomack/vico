@@ -47,6 +47,7 @@ public fun SpannableStringBuilder.appendCompat(
  * @param transform a lambda function yielding [SpannableStringBuilder] as its receiver. It is called for each item.
  * The caller function is responsible for adding the text to the builder.
  */
+@OptIn(ExperimentalStdlibApi::class)
 public fun <T> Iterable<T>.transformToSpannable(
     separator: CharSequence = ", ",
     prefix: CharSequence = "",

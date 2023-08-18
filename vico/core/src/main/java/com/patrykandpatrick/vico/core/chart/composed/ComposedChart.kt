@@ -143,6 +143,7 @@ public class ComposedChart<Model : ChartEntryModel>(
         }
     }
 
+    @OptIn(ExperimentalStdlibApi::class)
     private inline fun ComposedChartEntryModel<Model>.forEachModelWithChart(
         action: (item: Model, chart: Chart<Model>) -> Unit,
     ) {

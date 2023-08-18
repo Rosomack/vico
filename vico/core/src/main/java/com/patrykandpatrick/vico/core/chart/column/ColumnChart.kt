@@ -375,6 +375,7 @@ public open class ColumnChart(
             ) * layoutDirectionMultiplier
     }
 
+    @OptIn(ExperimentalStdlibApi::class)
     protected open fun MeasureContext.getCumulatedThickness(count: Int): Float {
         var thickness = 0f
         for (i in 0..<count) {

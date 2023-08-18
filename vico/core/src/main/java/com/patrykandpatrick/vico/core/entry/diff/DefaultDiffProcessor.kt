@@ -82,6 +82,7 @@ public class DefaultDiffProcessor : DiffProcessor<ChartEntry> {
         newStackedYRange = newEntries.calculateStackedYRange()
     }
 
+    @OptIn(ExperimentalStdlibApi::class)
     private fun updateProgressMap() {
         progressMaps.clear()
         val maxListSize = maxOf(oldEntries.size, newEntries.size)

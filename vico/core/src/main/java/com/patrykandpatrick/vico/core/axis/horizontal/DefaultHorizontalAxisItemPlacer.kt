@@ -46,6 +46,7 @@ internal class DefaultHorizontalAxisItemPlacer(
         var hasEndOverflow = false
         while (true) {
             var potentialValue = firstValue + multiplier++ * spacing * chartValues.xStep
+            if(potentialValue.isNaN()) break
             potentialValue = chartValues.xStep * (potentialValue / chartValues.xStep).round
             if (potentialValue < chartValues.minX || potentialValue == fullXRange.start) continue
             if (potentialValue > chartValues.maxX || potentialValue == fullXRange.endInclusive) break
